@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>MinTasks - Your Task Scheduler</title>
+
+{% endblock %}
+
+
+
+{% block body %}
+
+
+<body class="bg-gradient-to-br from-indigo-50 to-purple-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-5xl font-bold text-indigo-700 mb-2">MinTasks</h1>
+            <p class="text-xl text-gray-600">Your task scheduler</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+            {% if tasks | length < 1%}
+                <p class="text-center text-gray-500 py-4">No tasks available. Add a new task below!</p>
+            {% endif %}
+            <!-- Task Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-indigo-500 text-white">
+                            <th class="py-4 px-6 text-left rounded-tl-lg">Tasks</th>
+                            <th class="py-4 px-6 text-left">Added</th>
+                            <th class="py-4 px-6 text-left rounded-tr-lg">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in tasks %}
+                            <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors">
+                                <td class="py-4 px-6 text-gray-700">{{ task.content }}</td>
+                                <td class="py-4 px-6 text-gray-700">{{ task.created.strftime("%d-%m-%Y | %H:%M:%S") }}</td>
+                                <td class="py-4 px-6">
+                                    <a href="/delete/{{task.id}}" class="text-indigo-600 hover:text-indigo-800 transition-colors">
+                                         Delete
+                                    </a>
+                                    <br>
+                                    <a href="/update/{{task.id}}" class="text-indigo-600 hover:text-indigo-800 transition-colors">
+                                         Edit
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+            </div>
+
+            <!-- Add Task Form -->
+            <form class="mt-8 flex flex-col sm:flex-row gap-4" action="/" method="POST">
+                <input 
+                    type="text" 
+                    name="content" 
+                    id="content" 
+                    placeholder="Enter your task here..." 
+                    class="flex-grow px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                >
+                <button 
+                    type="submit" 
+                    id="btn_add" 
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+                >
+                    <i class="fas fa-plus"></i> Add Task
+                </button>
+            </form>
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center text-gray-500 text-sm">
+            <p>© 2023 MinTasks. Organize your life, one task at a time.</p>
+        </footer>
+    </div>
+
+    <!-- <script>
+        document.getElementById('btn_add').addEventListener('click', function(e) {
+            e.preventDefault();
+            const taskInput = document.getElementById('content');
+            const taskText = taskInput.value.trim();
+            
+            if (taskText) {
+                // In a real app, you would add the task to the table
+                alert(`Task "${taskText}" would be added to the table in a real application.`);
+                taskInput.value = '';
+            } else {
+                alert('Please enter a task!');
+            }
+        });
+    </script> -->
+</body>
+</html>
+
+{% endblock %}
